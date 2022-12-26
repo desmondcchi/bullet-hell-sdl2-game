@@ -1,28 +1,21 @@
 #include "SDL2/SDL.h"
+#include "headers/Game.hpp"
 
 int main() {
-    SDL_Init(SDL_INIT_EVERYTHING);
+    Game::Init();
 
-    SDL_Window* window = SDL_CreateWindow("Bullet Hell Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_SHOWN);
-    SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, 0);
+    SDL_SetRenderDrawColor(Game::GetRenderer(), 255, 0, 0, 255);
 
-    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+    SDL_RenderClear(Game::GetRenderer());
+    SDL_RenderPresent(Game::GetRenderer());
 
-    SDL_RenderClear(renderer);
-    SDL_RenderPresent(renderer);
-
-    bool isRunning = true;
-    SDL_Event event;
-
-    while (isRunning) {
-        while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_QUIT) {
-                isRunning = false;
+    while (Game::GetGameStatus() == GAME_STATUS::RUNNING) {
+        while (SDL_PollEvent(&Game::GetEvent())) {
+            if (Game::GetEvent().type == SDL_QUIT) {
+                Game::SetGameStatus(GAME_STATUS::STOP);
             }
         }
     }
 
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
-    SDL_Quit();
+    Game::Destroy();
 }
