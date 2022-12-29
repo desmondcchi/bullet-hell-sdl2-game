@@ -14,6 +14,15 @@ class Game {
         // Initializes the SDL window, renderer, and event.
         static void Init();
 
+        // Updates frames.
+        static void Update();
+
+        // Renders frames.
+        static void Render();
+
+        // Handles input and collision events.
+        static void HandleEvents();
+
         // Cleans up memory and destroys SDL window, renderer, and other objects.
         static void Destroy();
 

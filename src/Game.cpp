@@ -11,6 +11,26 @@ void Game::Init() {
     game_status = GAME_STATUS::GAME_STATUS::RUNNING;
 }
 
+void Game::Update() {
+
+}
+
+void Game::Render() {
+
+}
+
+void Game::HandleEvents() {
+    SDL_PollEvent(&Game::GetEvent());
+
+    switch (Game::GetEvent().type) {
+        case (SDL_EventType::SDL_QUIT):
+            Game::SetGameStatus(GAME_STATUS::GAME_STATUS::STOP);
+            break;
+        default:
+            break;
+    }
+}
+
 void Game::Destroy() {
     SDL_DestroyWindow(window);
     SDL_DestroyRenderer(renderer);  
