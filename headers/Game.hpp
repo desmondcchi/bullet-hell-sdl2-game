@@ -2,62 +2,35 @@
 #define GAME_HPP
 
 #include "SDL2/SDL.h"
-
-enum GAME_STATUS {
-    RUNNING,
-    STOP,
-    PAUSE,
-};
+#include "GAME_STATUS.hpp"
 
 class Game {
     public:
-        static inline Game* GetInstance() {
-            static Game* game_instance;
-            return game_instance;
-        }
+        static Game* GetInstance();
 
         // Delete the copy constructor so that it can remain a single instance.
         Game(const Game&) = delete;
 
         // Initializes the SDL window, renderer, and event.
-        static inline void Init() {
-            SDL_Init(SDL_INIT_EVERYTHING);
-            window = SDL_CreateWindow("Bullet Hell Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_SHOWN);
-            renderer = SDL_CreateRenderer(window, -1, 0); 
-            game_status = GAME_STATUS::RUNNING;
-        }
+        static void Init();
 
         // Cleans up memory and destroys SDL window, renderer, and other objects.
-        static inline void Destroy() {
-            SDL_DestroyWindow(window);
-            SDL_DestroyRenderer(renderer);  
-            SDL_Quit();
-        }
+        static void Destroy();
 
         // Getter for window.
-        static inline SDL_Window* GetWindow() {
-            return window;
-        }
+        static SDL_Window* GetWindow();
 
         // Getter for renderer.
-        static inline SDL_Renderer* GetRenderer() {
-            return renderer;
-        }
+        static SDL_Renderer* GetRenderer();
 
         // Getter for the lvalue reference of event.
-        static inline SDL_Event& GetEvent() {
-            return event;
-        }
+        static SDL_Event& GetEvent();
 
         // Getter for game_status.
-        static inline GAME_STATUS GetGameStatus() {
-            return game_status;
-        }
+        static GAME_STATUS::GAME_STATUS GetGameStatus();
 
         // Setter for game_status.
-        static inline void SetGameStatus(GAME_STATUS status) {
-            game_status = GAME_STATUS(status);
-        }
+        static void SetGameStatus(GAME_STATUS::GAME_STATUS status);
 
     private:
         Game() = default;
@@ -65,11 +38,13 @@ class Game {
 
         // inline keyword makes it so that the static variables do not need to be
         // defined outside the class.
+        static inline Game* game_instance;
+
         static inline SDL_Window* window;
         static inline SDL_Renderer* renderer;
         static inline SDL_Event event;
 
-        static inline GAME_STATUS game_status;
+        static inline GAME_STATUS::GAME_STATUS game_status;
 };
 
 #endif
